@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppCacheModule } from '@shared/modules/cache.module';
+import { RedisModule } from '@shared/modules/redis.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       removeListener: true,
     }),
     ScheduleModule.forRoot(),
+    RedisModule.forRootAsync(),
+    AppCacheModule,
   ],
   controllers: [],
   providers: [],
