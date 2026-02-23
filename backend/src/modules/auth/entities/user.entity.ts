@@ -5,14 +5,14 @@ import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 export class User extends BaseApplicationEntity {
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   @Index()
   fullName: string;
 
-  @Column({ length: 11, unique: true })
+  @Column({ length: 11, unique: true, nullable: true })
   phone: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({
@@ -22,7 +22,7 @@ export class User extends BaseApplicationEntity {
   })
   role: ApplicationRoles;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   email: string;
 
   @Column({
