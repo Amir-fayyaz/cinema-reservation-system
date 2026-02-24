@@ -1,5 +1,8 @@
+import { Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 import morgan from 'morgan';
+
+const logger = new Logger('HTTP');
 
 export const morganFormat = (
   tokens: morgan.TokenIndexer<Request, Response>,
@@ -23,10 +26,16 @@ export const morganFormat = (
 export const morganStream = {
   write: (message: string) => {
     const trimmed = message.trim();
-    if (trimmed.includes(' 4') || trimmed.includes(' 5')) {
-      console.error('\x1b[31m%s\x1b[0m', trimmed);
+
+    const statusMatch = trimmed.match(/\s(\d{3})\s/);
+    const status = statusMatch ? parseInt(statusMatch[1]) : 200;
+
+    if (status >= 400) {
+      logger.error(trimmed);
+    } else if (status >= 300 && status < 400) {
+      logger.warn(trimmed);
     } else {
-      console.log('\x1b[32m%s\x1b[0m', trimmed);
+      logger.log(trimmed);
     }
   },
 };
@@ -34,6 +43,6 @@ export const morganStream = {
 export const morganOptions = {
   stream: morganStream,
   skip: (req: Request, res: Response) => {
-    return req.url === '/health';
+    return req.url === '/health' || req.url === '/metrics';
   },
 };
