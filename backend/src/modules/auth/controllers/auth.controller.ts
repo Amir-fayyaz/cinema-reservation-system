@@ -1,5 +1,4 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { HashPasswordPipe } from '@shared/pipes/hash-password.pipe';
 import { RegisterByEmailDto } from '../dto/register-by-email.dto';
 import { AuthService } from '../services/auth.service';
 
@@ -8,7 +7,7 @@ export class AuthController {
   constructor(private readonly service: AuthService) {}
 
   @Post('register-by-email')
-  async registerByEmail(@Body(HashPasswordPipe) dto: RegisterByEmailDto) {
+  async registerByEmail(@Body() dto: RegisterByEmailDto) {
     return this.service.registerByEmail(dto);
   }
 }
