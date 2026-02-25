@@ -1,7 +1,8 @@
 import { BaseApplicationEntity } from '@shared/abstracts/base-entity';
-import { Column, Index, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 
+@Entity()
 export class Permission extends BaseApplicationEntity {
   @Column()
   @Index()
