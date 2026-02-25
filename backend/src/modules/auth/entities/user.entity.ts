@@ -1,7 +1,8 @@
 import { BaseApplicationEntity } from '@shared/abstracts/base-entity';
 import { GenderEnum } from '@shared/enums/gender.enum';
 import { ApplicationRoles } from '@shared/enums/role-app.enum';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
+import { Permission } from './permission.entity';
 
 @Entity()
 export class User extends BaseApplicationEntity {
@@ -34,4 +35,7 @@ export class User extends BaseApplicationEntity {
 
   @Column({ type: 'date', nullable: true })
   birthDate: Date;
+
+  @OneToMany(() => Permission, (permission) => permission.user)
+  permissions: Permission[];
 }
