@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import {
@@ -7,6 +7,8 @@ import {
 } from '@shared/constants/jwt';
 import { JwtPayload } from '@shared/types/jwt-payload.type';
 import { LoginResponse } from '../types/login-response.type';
+
+@Injectable()
 export class JwtAppService {
   constructor(
     private readonly jwtService: JwtService,
