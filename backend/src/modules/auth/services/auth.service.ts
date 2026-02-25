@@ -67,7 +67,8 @@ export class AuthService {
 
     if (!otp) throw new BadRequestException('invalid otp');
 
-    if (!Compare(code, otp)) throw new BadRequestException('invalid otp');
+    if (!(await Compare(code, otp)))
+      throw new BadRequestException('invalid otp');
 
     await this.cacheService.del(`email:${email}`);
 
