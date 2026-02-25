@@ -4,6 +4,7 @@ import { initSwagger } from '@config/swagger.config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { HttpExceptionFilter } from '@shared/filters/exception.filter';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import { AppModule } from './app.module';
@@ -33,6 +34,8 @@ async function bootstrap() {
   if (process.env.NODE_ENV == 'development') initSwagger(app);
 
   app.use(morgan(morganFormat, morganOptions));
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(process.env.PORT ?? 3001, async () => {
     Logger.log(`Server run on port :  ${process.env.PORT}`, 'AppLogger');
