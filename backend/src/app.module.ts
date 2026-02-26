@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthorizationModule } from '@shared/modules/authorization.module';
 import { AppCacheModule } from '@shared/modules/cache.module';
 import { RedisModule } from '@shared/modules/redis.module';
 
@@ -22,6 +23,7 @@ import { RedisModule } from '@shared/modules/redis.module';
     ScheduleModule.forRoot(),
     RedisModule.forRootAsync(),
     AppCacheModule,
+    AuthorizationModule,
     AuthModule,
   ],
   controllers: [],
