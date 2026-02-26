@@ -8,12 +8,34 @@ import { User } from './entities/user.entity';
 import { AuthService } from './services/auth.service';
 import { JwtAppService } from './services/jwt.service';
 import { OtpService } from './services/otp.service';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from '@shared/guards/http/role.guard';
+import { AuthWithHeader } from './guards/auth-header.guard';
+import { PermissionsGuard } from '@shared/guards/http/permission.guard';
 
 @Global()
 @Module({
   imports: [TypeOrmModule.forFeature([User, Permission])],
   controllers: [AuthController],
-  providers: [AuthService, JwtService, JwtAppService, OtpService, CacheService],
-  exports: [],
+  providers: [
+    AuthService,
+    JwtService,
+    JwtAppService,
+    OtpService,
+    CacheService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthWithHeader,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionsGuard,
+    },
+  ],
+  exports: [JwtService, JwtAppService],
 })
 export class AuthModule {}
