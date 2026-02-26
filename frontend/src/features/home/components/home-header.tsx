@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const navItems = ["فیلم‌ها", "سانس‌ها", "صندلی‌ها", "تخفیف‌ها"];
 
 export function HomeHeader() {
@@ -28,9 +30,12 @@ export function HomeHeader() {
           ))}
         </nav>
 
-        <button className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-orange-100">
+        <Link
+          href="/login"
+          className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-orange-100"
+        >
           ورود / ثبت‌نام
-        </button>
+        </Link>
       </div>
     </header>
   );
