@@ -10,7 +10,6 @@ import { Compare, Hash } from '@shared/utils/hash';
 import { Repository } from 'typeorm';
 import { RegisterByEmailDto } from '../dto/register-by-email.dto';
 import { VerifyByEmailDto } from '../dto/verify-by-email.dto';
-import { Permission } from '../entities/permission.entity';
 import { User } from '../entities/user.entity';
 import { JwtAppService } from './jwt.service';
 import { OtpService } from './otp.service';
@@ -20,8 +19,6 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Permission)
-    private readonly permissionRepository: Repository<Permission>,
     private readonly cacheService: CacheService,
     private readonly otpService: OtpService,
     private readonly jwtService: JwtAppService,

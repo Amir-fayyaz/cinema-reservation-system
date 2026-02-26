@@ -5,7 +5,7 @@ import {
   accessTokenExpireTime,
   refreshTokenExpireTime,
 } from '@shared/constants/jwt';
-import { JwtPayload } from '@shared/types/jwt-payload.type';
+import { JwtPayload } from '@shared/@types/jwt-payload.type';
 import { LoginResponse } from '../types/login-response.type';
 
 @Injectable()
