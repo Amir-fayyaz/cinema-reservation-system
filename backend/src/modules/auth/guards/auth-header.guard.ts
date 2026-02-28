@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { SKIP_AUTH } from '@shared/decorators/skip-auth.decorator';
+import { extractTokenFromCookie } from '@shared/utils/extract-token';
 import { Request } from 'express';
 import { JwtAppService } from '../services/jwt.service';
-import { extractTokenFromHeader } from '@shared/utils/extract-token';
 
 @Injectable()
 export class AuthWithHeader implements CanActivate {
@@ -28,7 +28,8 @@ export class AuthWithHeader implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
 
     try {
-      const token = extractTokenFromHeader(request.headers.authorization);
+      // const token = extractTokenFromHeader(request.headers.authorization);
+      const token = extractTokenFromCookie(request);
 
       if (!token) throw new UnauthorizedException('token not provided');
 

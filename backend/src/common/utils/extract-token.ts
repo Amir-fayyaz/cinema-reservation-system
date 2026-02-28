@@ -1,3 +1,6 @@
+import { accessTokenName } from '@shared/constants/jwt';
+import { Request } from 'express';
+
 export const extractTokenFromHeader = (
   authorizationHeader: string | undefined,
 ): string | undefined => {
@@ -10,4 +13,10 @@ export const extractTokenFromHeader = (
   }
 
   return token;
+};
+
+export const extractTokenFromCookie = (request: Request) => {
+  return request.cookies?.[accessTokenName]
+    ? request.cookies[accessTokenName]
+    : undefined;
 };
