@@ -7,4 +7,6 @@ export enum AuthMessages {
   OTP_SENT = 'otp-sent',
   WRONG_PASSWORD = 'wrong-password',
   INVALID_EMAIL = 'invalid-email',
+  USER_WITH_THIS_EMAIL_NOT_FOUND = 'user-with-this-email-not-found',
+  USER_WITH_THIS_PHONE_NOT_FOUND = 'user-with-this-phone-not-found',
 }

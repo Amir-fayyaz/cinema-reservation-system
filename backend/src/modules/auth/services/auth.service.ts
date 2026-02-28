@@ -14,6 +14,7 @@ import { Repository } from 'typeorm';
 import { RegisterByEmailDto } from '../dto/register-by-email.dto';
 import { VerifyByEmailDto } from '../dto/verify-by-email.dto';
 import { User } from '../entities/user.entity';
+import { LoginResponse } from '../types/login-response.type';
 import { JwtAppService } from './jwt.service';
 import { OtpService } from './otp.service';
 
@@ -80,25 +81,60 @@ export class AuthService {
     return await this.otpService.sendOtpToEmail(email);
   }
 
-  async verifyByEmail({ code, email }: VerifyByEmailDto) {
+  async verifyByEmail({
+    code,
+    email,
+  }: VerifyByEmailDto): Promise<LoginResponse> {
     const user = await this.userRepository.findOne({
       where: { email },
       relations: ['permissions'],
     });
 
-    if (!user) throw new BadRequestException('invalid email');
+    if (!user) {
+      this.eventEmitter.emit(AuthEvents.LOGIN_BY_EMAIL, {
+        aggregateId: '',
+        email,
+        message: AuthMessages.USER_WITH_THIS_EMAIL_NOT_FOUND,
+      });
+      throw new BadRequestException('invalid email');
+    }
 
     const otp = await this.cacheService.get(`email:${email}`);
 
-    if (!otp) throw new BadRequestException('invalid otp');
-
-    if (!(await Compare(code, otp)))
+    if (!otp) {
+      this.eventEmitter.emit(AuthEvents.LOGIN_BY_EMAIL, {
+        aggregateId: user.id,
+        email,
+        message: AuthMessages.WRONG_OTP,
+        otpCode: code,
+      });
       throw new BadRequestException('invalid otp');
+    }
+
+    if (!(await Compare(code, otp))) {
+      this.eventEmitter.emit(AuthEvents.LOGIN_BY_EMAIL, {
+        aggregateId: user.id,
+        email,
+        message: AuthMessages.WRONG_OTP,
+        otpCode: code,
+      });
+      throw new BadRequestException('invalid otp');
+    }
 
     await this.cacheService.del(`email:${email}`);
 
     const userPermissions = user.permissions?.map((p) => p.name) || [];
 
+    this.eventEmitter.emit(AuthEvents.LOGIN_BY_EMAIL, {
+      aggregateId: user.id,
+      email,
+      message: AuthMessages.LOGIN_WITH_EMAIL_WAS_SUCCESSFULLY,
+      otpCode: code,
+      data: {
+        withRole: user.role,
+        withPermissions: userPermissions,
+      },
+    });
     return await this.jwtService.generateToken({
       role: user.role,
       sub: user.id,
