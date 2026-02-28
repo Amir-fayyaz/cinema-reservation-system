@@ -1,9 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { SkipAuth } from '@shared/decorators/skip-auth.decorator';
 import { RegisterByEmailDto } from '../dto/register-by-email.dto';
 import { VerifyByEmailDto } from '../dto/verify-by-email.dto';
 import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
+@SkipAuth()
 export class AuthController {
   constructor(private readonly service: AuthService) {}
 
