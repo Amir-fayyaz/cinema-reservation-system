@@ -8,13 +8,13 @@ import { Permission } from './permission.entity';
 export class User extends BaseApplicationEntity {
   @Column({ length: 100, nullable: true })
   @Index()
-  fullName: string;
+  fullName?: string;
 
   @Column({ length: 11, unique: true, nullable: true })
-  phone: string;
+  phone?: string;
 
   @Column({ nullable: true })
-  password: string;
+  password?: string;
 
   @Column({
     type: 'enum',
@@ -24,7 +24,7 @@ export class User extends BaseApplicationEntity {
   role: ApplicationRoles;
 
   @Column({ unique: true, nullable: true })
-  email: string;
+  email?: string;
 
   @Column({
     type: 'enum',
@@ -34,7 +34,10 @@ export class User extends BaseApplicationEntity {
   gender: GenderEnum;
 
   @Column({ type: 'date', nullable: true })
-  birthDate: Date;
+  birthDate?: Date;
+
+  @Column({ nullable: true })
+  refreshToken?: string;
 
   @OneToMany(() => Permission, (permission) => permission.user)
   permissions: Permission[];
