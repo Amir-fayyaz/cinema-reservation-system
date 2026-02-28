@@ -7,6 +7,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorizationModule } from '@shared/modules/authorization.module';
 import { AppCacheModule } from '@shared/modules/cache.module';
+import { EventStoreModule } from '@shared/modules/event-store/event-store.module';
 import { RedisModule } from '@shared/modules/redis.module';
 
 @Module({
@@ -24,6 +25,7 @@ import { RedisModule } from '@shared/modules/redis.module';
     RedisModule.forRootAsync(),
     AppCacheModule,
     AuthorizationModule,
+    EventStoreModule,
     AuthModule,
   ],
   controllers: [],
