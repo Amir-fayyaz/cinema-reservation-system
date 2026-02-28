@@ -1,5 +1,6 @@
 import { TypeOrmConfig } from '@config/typeorm.config';
 import { AuthModule } from '@core/auth/auth.module';
+import { HealthController } from '@core/health/health.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -28,7 +29,7 @@ import { RedisModule } from '@shared/modules/redis.module';
     EventStoreModule,
     AuthModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [],
 })
 export class AppModule {}
