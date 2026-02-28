@@ -4,7 +4,10 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthEvents } from '@shared/constants/events/auth.events';
+import { AuthMessages } from '@shared/messages/auth/auth-message';
 import { CacheService } from '@shared/services/cache.service';
 import { Compare, Hash } from '@shared/utils/hash';
 import { Repository } from 'typeorm';
@@ -22,22 +25,41 @@ export class AuthService {
     private readonly cacheService: CacheService,
     private readonly otpService: OtpService,
     private readonly jwtService: JwtAppService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async registerByEmail({ email, password }: RegisterByEmailDto) {
     const isOtpSentBefore = await this.cacheService.get(`email:${email}`);
 
-    if (isOtpSentBefore)
+    if (isOtpSentBefore) {
+      this.eventEmitter.emit(AuthEvents.REGISTER_BY_EMAIL, {
+        aggregateId: '',
+        email,
+        message: AuthMessages.OTP_SENT_BEFORE,
+      });
       throw new HttpException(
         'otp already sent to your email',
         HttpStatus.TOO_MANY_REQUESTS,
       );
+    }
 
     const user = await this.userRepository.findOne({ where: { email } });
 
     if (user) {
-      if (!(await Compare(password, user.password)))
+      if (!(await Compare(password, user.password))) {
+        this.eventEmitter.emit(AuthEvents.REGISTER_BY_EMAIL, {
+          aggregateId: user.id,
+          email,
+          message: AuthMessages.WRONG_PASSWORD,
+        });
         throw new BadRequestException('wrong password');
+      }
+
+      this.eventEmitter.emit(AuthEvents.REGISTER_BY_EMAIL, {
+        aggregateId: user.id,
+        email,
+        message: AuthMessages.OTP_SENT,
+      });
 
       return await this.otpService.sendOtpToEmail(email);
     }
@@ -48,6 +70,12 @@ export class AuthService {
     });
 
     await this.userRepository.save(newUser);
+
+    this.eventEmitter.emit(AuthEvents.REGISTER_BY_EMAIL, {
+      aggregateId: newUser.id,
+      email,
+      message: AuthMessages.OTP_SENT,
+    });
 
     return await this.otpService.sendOtpToEmail(email);
   }
