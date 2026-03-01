@@ -1,5 +1,6 @@
 import { BaseApplicationEntity } from '@shared/abstracts/base-entity';
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
+import { PermissionCategory } from './permission-category.entity';
 import { User } from './user.entity';
 
 @Entity()
@@ -13,4 +14,11 @@ export class Permission extends BaseApplicationEntity {
 
   @Column()
   userId: string;
+
+  @ManyToOne(() => PermissionCategory, (pc) => pc.permissions)
+  @JoinColumn({ name: 'categoryId' })
+  category: PermissionCategory;
+
+  @Column()
+  categoryId: string;
 }
