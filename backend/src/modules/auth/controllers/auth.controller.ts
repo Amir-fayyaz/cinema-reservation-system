@@ -1,9 +1,11 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import {
+  accessTokenExpireTimeByMilliSecond,
   accessTokenName,
   refreshTokenExpireTimeByMilliSecond,
   refreshTokenName,
 } from '@shared/constants/jwt';
+import { Cookie } from '@shared/decorators/cookie.decorator';
 import { SkipAuth } from '@shared/decorators/skip-auth.decorator';
 import { setCookies } from '@shared/utils/set-cookie';
 import { Response } from 'express';
@@ -46,7 +48,30 @@ export class AuthController {
           httpOnly: true,
           secure: true,
           sameSite: 'lax',
-          maxAge: refreshTokenExpireTimeByMilliSecond,
+          maxAge: accessTokenExpireTimeByMilliSecond,
+        },
+      },
+    ]);
+
+    response.json({ success: true });
+  }
+
+  @Post('refresh-token')
+  async refreshToken(
+    @Cookie(refreshTokenName) token: string,
+    @Res() response: Response,
+  ) {
+    const accessToken = await this.service.refreshToken(token);
+
+    setCookies(response, [
+      {
+        name: accessTokenName,
+        value: accessToken,
+        options: {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'lax',
+          maxAge: accessTokenExpireTimeByMilliSecond,
         },
       },
     ]);

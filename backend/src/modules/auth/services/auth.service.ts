@@ -3,6 +3,8 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -135,10 +137,45 @@ export class AuthService {
         withPermissions: userPermissions,
       },
     });
-    return await this.jwtService.generateToken({
+
+    const tokens = await this.jwtService.generateToken({
       role: user.role,
       sub: user.id,
       permissions: userPermissions,
     });
+
+    user.refreshToken = tokens.refreshToken;
+    await this.userRepository.save(user);
+
+    return tokens;
+  }
+
+  async refreshToken(token?: string) {
+    if (!token) throw new NotFoundException('token not provided');
+
+    try {
+      const payload = await this.jwtService.verifyRefreshToken(token);
+
+      const user = await this.userRepository.findOne({
+        where: { id: payload.sub, refreshToken: token },
+        relations: ['permissions'],
+      });
+
+      if (!user) {
+        throw new BadRequestException('this token is not related to you!');
+        //*emit event
+      }
+
+      const userPermissions = user.permissions?.map((p) => p.name) || [];
+
+      //*emit event
+      return await this.jwtService.generateAccessToken({
+        sub: user.id,
+        role: user.role,
+        permissions: userPermissions,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }
