@@ -4,13 +4,11 @@ import {
   accessTokenName,
   refreshTokenExpireTimeByMilliSecond,
   refreshTokenName,
-} from '@shared/constants/jwt';
-import { Cookie } from '@shared/decorators/cookie.decorator';
-import { SkipAuth } from '@shared/decorators/skip-auth.decorator';
-import { setCookies } from '@shared/utils/set-cookie';
+} from '@shared/constants';
+import { Cookie, SkipAuth } from '@shared/decorators';
+import { setCookies } from '@shared/utils';
 import { Response } from 'express';
-import { RegisterByEmailDto } from '../dto/register-by-email.dto';
-import { VerifyByEmailDto } from '../dto/verify-by-email.dto';
+import { RegisterByEmailDto, VerifyByEmailDto } from '../dto';
 import { AuthService } from '../services/auth.service';
 
 @Controller('auth')

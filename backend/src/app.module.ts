@@ -6,10 +6,12 @@ import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthorizationModule } from '@shared/modules/authorization.module';
-import { AppCacheModule } from '@shared/modules/cache.module';
-import { EventStoreModule } from '@shared/modules/event-store/event-store.module';
-import { RedisModule } from '@shared/modules/redis.module';
+import {
+  AppCacheModule,
+  AuthorizationModule,
+  EventStoreModule,
+  RedisModule,
+} from '@shared/modules';
 
 @Module({
   imports: [

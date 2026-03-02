@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exists } from '@shared/validators/is-exists.validator';
+import { Exists } from '@shared/validators';
 import { IsString } from 'class-validator';
 import { PermissionCategory } from '../entities/permission-category.entity';
 import { User } from '../entities/user.entity';

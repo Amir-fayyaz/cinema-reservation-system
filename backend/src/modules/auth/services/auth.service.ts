@@ -8,13 +8,12 @@ import {
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthEvents } from '@shared/constants/events/auth.events';
-import { AuthMessages } from '@shared/messages/auth/auth-message';
-import { CacheService } from '@shared/services/cache.service';
-import { Compare, Hash } from '@shared/utils/hash';
+import { AuthEvents } from '@shared/constants';
+import { AuthMessages } from '@shared/messages';
+import { CacheService } from '@shared/services';
+import { Compare, Hash } from '@shared/utils';
 import { Repository } from 'typeorm';
-import { RegisterByEmailDto } from '../dto/register-by-email.dto';
-import { VerifyByEmailDto } from '../dto/verify-by-email.dto';
+import { RegisterByEmailDto, VerifyByEmailDto } from '../dto';
 import { User } from '../entities/user.entity';
 import { LoginResponse } from '../types/login-response.type';
 import { JwtAppService } from './jwt.service';

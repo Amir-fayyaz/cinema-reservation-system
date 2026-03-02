@@ -1,10 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import {
-  CREATE_PERMISSION,
-  READ_PERMISSION,
-} from '@shared/constants/permissions/permission';
-import { AuthorizeByPermission } from '@shared/decorators/authorization.decorator';
-import { CreatePermissionDto } from '../dto/create-permission.dto';
+import { CREATE_PERMISSION, READ_PERMISSION } from '@shared/constants';
+import { AuthorizeByPermission } from '@shared/decorators';
+import { CreatePermissionDto } from '../dto';
 import { PermissionService } from '../services/permission.service';
 
 @Controller('permissions')

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CacheService } from '@shared/services/cache.service';
-import { Hash } from '@shared/utils/hash';
+import { CacheService } from '@shared/services';
+import { Hash } from '@shared/utils';
 
 @Injectable()
 export class OtpService {

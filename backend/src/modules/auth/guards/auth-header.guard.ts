@@ -5,8 +5,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { SKIP_AUTH } from '@shared/decorators/skip-auth.decorator';
-import { extractTokenFromCookie } from '@shared/utils/extract-token';
+import { SKIP_AUTH } from '@shared/decorators';
+import { extractTokenFromCookie } from '@shared/utils';
 import { Request } from 'express';
 import { JwtAppService } from '../services/jwt.service';
 

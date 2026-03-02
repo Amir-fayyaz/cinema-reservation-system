@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from '@shared/@types';
 import {
   accessTokenExpireTime,
   refreshTokenExpireTime,
-} from '@shared/constants/jwt';
-import { JwtPayload } from '@shared/@types/jwt-payload.type';
+} from '@shared/constants';
 import { LoginResponse } from '../types/login-response.type';
 
 @Injectable()

@@ -1,6 +1,5 @@
-import { BaseApplicationEntity } from '@shared/abstracts/base-entity';
-import { GenderEnum } from '@shared/enums/gender.enum';
-import { ApplicationRoles } from '@shared/enums/role-app.enum';
+import { BaseApplicationEntity } from '@shared/abstracts';
+import { ApplicationRoles, GenderEnum } from '@shared/enums';
 import { Column, Entity, Index, OneToMany } from 'typeorm';
 import { Permission } from './permission.entity';
 

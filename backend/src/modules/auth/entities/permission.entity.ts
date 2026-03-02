@@ -1,4 +1,4 @@
-import { BaseApplicationEntity } from '@shared/abstracts/base-entity';
+import { BaseApplicationEntity } from '@shared/abstracts';
 import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { PermissionCategory } from './permission-category.entity';
 import { User } from './user.entity';

@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreatePermissionCategoryDto } from '../dto/create-permission-category.dto';
-import { UpdatePermissionCategoryDto } from '../dto/update-permission-category.dto';
+import {
+  CreatePermissionCategoryDto,
+  UpdatePermissionCategoryDto,
+} from '../dto';
 import { PermissionCategory } from '../entities/permission-category.entity';
 
 @Injectable()

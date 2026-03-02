@@ -13,10 +13,12 @@ import {
   DELETE_PERMISSION_CATEGORY,
   READ_PERMISSION_CATEGORY,
   UPDATE_PERMISSION_CATEGORY,
-} from '@shared/constants/permissions/permission-category';
-import { AuthorizeByPermission } from '@shared/decorators/authorization.decorator';
-import { CreatePermissionCategoryDto } from '../dto/create-permission-category.dto';
-import { UpdatePermissionCategoryDto } from '../dto/update-permission-category.dto';
+} from '@shared/constants';
+import { AuthorizeByPermission } from '@shared/decorators';
+import {
+  CreatePermissionCategoryDto,
+  UpdatePermissionCategoryDto,
+} from '../dto';
 import { PermissionCategoryService } from '../services/permission-category.service';
 
 @Controller('permission-category')
