@@ -3,9 +3,11 @@ import { AuthModule } from '@core/auth/auth.module';
 import { HealthController } from '@core/health/health.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GlobalApplicationInterceptor } from '@shared/interceptors/global.interceptor';
 import {
   AppCacheModule,
   AuthorizationModule,
@@ -32,6 +34,11 @@ import {
     AuthModule,
   ],
   controllers: [HealthController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: GlobalApplicationInterceptor,
+    },
+  ],
 })
 export class AppModule {}
