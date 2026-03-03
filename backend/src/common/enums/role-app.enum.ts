@@ -4,4 +4,5 @@ export enum ApplicationRoles {
   ADMIN = 'admin',
   ALL = 'all',
   CINEMA_ADMIN = 'cinema-admin',
+  CINEMA_OWNER = 'cinema-owner',
 }
