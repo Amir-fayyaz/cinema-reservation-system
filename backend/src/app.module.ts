@@ -1,4 +1,5 @@
 import { TypeOrmConfig } from '@config/typeorm.config';
+import { AddressModule } from '@core/address/address.module';
 import { AuthModule } from '@core/auth/auth.module';
 import { HealthController } from '@core/health/health.controller';
 import { Module } from '@nestjs/common';
@@ -32,6 +33,7 @@ import {
     AuthorizationModule,
     EventStoreModule,
     AuthModule,
+    AddressModule,
   ],
   controllers: [HealthController],
   providers: [
