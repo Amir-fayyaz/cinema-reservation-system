@@ -1,5 +1,7 @@
 export * from './authorizaton';
 export * from './events/auth.events';
+export * from './iran-cities';
+export * from './iran-province';
 export * from './jwt';
 export * from './permissions/permission';
 export * from './permissions/permission-category';
