@@ -1,6 +1,7 @@
 import { TypeOrmConfig } from '@config/typeorm.config';
 import { AddressModule } from '@core/address/address.module';
 import { AuthModule } from '@core/auth/auth.module';
+import { CinemaModule } from '@core/cinema/cinema.module';
 import { HealthController } from '@core/health/health.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -34,6 +35,7 @@ import {
     EventStoreModule,
     AuthModule,
     AddressModule,
+    CinemaModule,
   ],
   controllers: [HealthController],
   providers: [
