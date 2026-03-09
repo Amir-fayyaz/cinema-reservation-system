@@ -1,8 +1,16 @@
 import { Address } from '@core/address/entities/address.entity';
 import { User } from '@core/auth/entities/user.entity';
+import { Personnel } from '@core/personnel/entities/personnel.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
 import { CinemaStatus } from '@shared/enums';
-import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class Cinema extends BaseApplicationEntity {
@@ -28,4 +36,7 @@ export class Cinema extends BaseApplicationEntity {
 
   @Column({ type: 'enum', enum: CinemaStatus, default: CinemaStatus.PENDING })
   status: CinemaStatus;
+
+  @OneToMany(() => Personnel, (personnel) => personnel.cinema)
+  personnels: Personnel[];
 }
