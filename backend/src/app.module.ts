@@ -3,6 +3,7 @@ import { AddressModule } from '@core/address/address.module';
 import { AuthModule } from '@core/auth/auth.module';
 import { CinemaModule } from '@core/cinema/cinema.module';
 import { HealthController } from '@core/health/health.controller';
+import { PersonnelModule } from '@core/personnel/personnel.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -36,6 +37,7 @@ import {
     AuthModule,
     AddressModule,
     CinemaModule,
+    PersonnelModule,
   ],
   controllers: [HealthController],
   providers: [
