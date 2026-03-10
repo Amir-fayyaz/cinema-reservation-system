@@ -1,4 +1,3 @@
-import { Personnel } from '@core/personnel/entities/personnel.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
 import { ApplicationRoles, GenderEnum } from '@shared/enums';
 import { Column, Entity, Index, OneToMany } from 'typeorm';
@@ -41,7 +40,4 @@ export class User extends BaseApplicationEntity {
 
   @OneToMany(() => Permission, (permission) => permission.user)
   permissions: Permission[];
-
-  @OneToMany(() => Personnel, (personnel) => personnel.user)
-  personnels: Personnel[];
 }
