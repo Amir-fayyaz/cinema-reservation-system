@@ -7,6 +7,7 @@ export * from './permissions/cinema';
 export * from './permissions/permission';
 export * from './permissions/permission-category';
 export * from './permissions/personnel';
+export * from './permissions/position';
 export * from './permissions/user';
 export * from './sensitive-fields';
 export * from './tokens';
