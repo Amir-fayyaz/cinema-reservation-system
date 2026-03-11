@@ -1,6 +1,7 @@
 import { TypeOrmConfig } from '@config/typeorm.config';
 import { AuthModule } from '@core/auth/auth.module';
 import { HealthController } from '@core/health/health.controller';
+import { PersonnelModule } from '@core/personnel/personnel.module';
 import { PositionModule } from '@core/position/position.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -34,6 +35,7 @@ import {
     EventStoreModule,
     AuthModule,
     PositionModule,
+    PersonnelModule,
   ],
   controllers: [HealthController],
   providers: [
