@@ -1,5 +1,6 @@
+import { Personnel } from '@core/personnel/entities/personnel.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class Position extends BaseApplicationEntity {
@@ -8,4 +9,7 @@ export class Position extends BaseApplicationEntity {
 
   @Column({ type: 'text', nullable: true })
   description: string;
+
+  @OneToMany(() => Personnel, (p) => p.position)
+  personnels: Personnel[];
 }
