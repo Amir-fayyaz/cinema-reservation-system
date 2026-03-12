@@ -1,7 +1,7 @@
 import { User } from '@core/auth/entities/user.entity';
 import { Position } from '@core/position/entities/position.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
-import { Column, Entity, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity()
 export class Personnel extends BaseApplicationEntity {
@@ -15,6 +15,7 @@ export class Personnel extends BaseApplicationEntity {
   personnelNumber: string;
 
   @OneToOne(() => User, { cascade: true, nullable: false })
+  @JoinColumn()
   user: User;
 
   @Column()
