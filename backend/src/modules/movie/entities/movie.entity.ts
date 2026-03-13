@@ -1,5 +1,21 @@
 import { BaseApplicationEntity } from '@shared/abstracts';
-import { Entity } from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-export class Movie extends BaseApplicationEntity {}
+export class Movie extends BaseApplicationEntity {
+  @Column()
+  @Index()
+  name: string;
+
+  @Column({ nullable: true, type: 'text' })
+  description: string;
+
+  @Column()
+  duration: number;
+
+  @Column('date')
+  releaseDate: Date;
+
+  @Column()
+  fileId: string; //TODO relation to file-entity
+}
