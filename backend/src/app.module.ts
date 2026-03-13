@@ -1,15 +1,14 @@
 import { TypeOrmConfig } from '@config/typeorm.config';
 import { AuthModule } from '@core/auth/auth.module';
 import { HealthController } from '@core/health/health.controller';
+import { MovieModule } from '@core/movie/movie.module';
 import { PersonnelModule } from '@core/personnel/personnel.module';
 import { PositionModule } from '@core/position/position.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppCacheInterceptor } from '@shared/interceptors/cache.interceptor';
 import {
   AppCacheModule,
   AuthorizationModule,
@@ -38,13 +37,9 @@ import {
     AuthModule,
     PositionModule,
     PersonnelModule,
+    MovieModule,
   ],
   controllers: [HealthController],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: AppCacheInterceptor,
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}
