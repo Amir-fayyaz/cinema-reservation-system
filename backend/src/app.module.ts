@@ -14,6 +14,7 @@ import {
   AppCacheModule,
   AuthorizationModule,
   EventStoreModule,
+  GlobalApplicationInterceptorModule,
   RedisModule,
 } from '@shared/modules';
 
@@ -33,6 +34,7 @@ import {
     AppCacheModule,
     AuthorizationModule,
     EventStoreModule,
+    GlobalApplicationInterceptorModule,
     AuthModule,
     PositionModule,
     PersonnelModule,
