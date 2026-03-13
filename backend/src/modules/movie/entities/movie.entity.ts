@@ -16,6 +16,6 @@ export class Movie extends BaseApplicationEntity {
   @Column('date')
   releaseDate: Date;
 
-  @Column()
+  @Column({ nullable: true })
   fileId: string; //TODO relation to file-entity
 }
