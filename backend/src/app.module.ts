@@ -1,5 +1,6 @@
 import { TypeOrmConfig } from '@config/typeorm.config';
 import { AuthModule } from '@core/auth/auth.module';
+import { HallModule } from '@core/hall/hall.module';
 import { HealthController } from '@core/health/health.controller';
 import { MovieModule } from '@core/movie/movie.module';
 import { PersonnelModule } from '@core/personnel/personnel.module';
@@ -38,6 +39,7 @@ import {
     PositionModule,
     PersonnelModule,
     MovieModule,
+    HallModule,
   ],
   controllers: [HealthController],
   providers: [],
