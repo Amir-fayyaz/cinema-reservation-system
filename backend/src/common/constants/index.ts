@@ -4,6 +4,7 @@ export * from './iran-cities';
 export * from './iran-province';
 export * from './jwt';
 export * from './permissions/cinema';
+export * from './permissions/movie';
 export * from './permissions/permission';
 export * from './permissions/permission-category';
 export * from './permissions/personnel';
