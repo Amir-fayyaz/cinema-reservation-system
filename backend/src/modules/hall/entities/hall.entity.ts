@@ -1,5 +1,6 @@
+import { Seat } from '@core/seat/entities/seat.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class Hall extends BaseApplicationEntity {
@@ -11,4 +12,7 @@ export class Hall extends BaseApplicationEntity {
 
   @Column()
   seatsPerRows: number;
+
+  @OneToMany(() => Seat, (seat) => seat.Hall)
+  seats: Seat[];
 }
