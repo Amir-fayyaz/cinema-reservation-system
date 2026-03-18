@@ -1,9 +1,10 @@
 import { Hall } from '@core/hall/entities/hall.entity';
 import { Exists } from '@shared/validators';
-import { IsBoolean, IsInt, IsOptional, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsOptional, IsUUID, Min } from 'class-validator';
 
 export class CreateSeatDto {
   @Exists(Hall)
+  @IsUUID()
   hallId: string;
 
   @IsInt()
