@@ -1,6 +1,62 @@
+# version: '3.8'
+
+# services:
+#   mysql:
+#     image: mysql:8
+#     container_name: cinema-mysql
+#     environment:
+#       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#       MYSQL_DATABASE: ${MYSQL_DATABASE}
+#       MYSQL_USER: ${MYSQL_USER}
+#       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#     ports:
+#       - '3306:3306'
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+#     restart: unless-stopped
+#     networks:
+#       - cinema-network
+
+#   redis:
+#     image: redis:latest
+#     container_name: cinema-redis
+#     restart: always
+#     ports:
+#       - '6379:6379'
+#     networks:
+#       - cinema-network
+
+# networks:
+#   cinema-network:
+#     driver: bridge
+
+# volumes:
+#   mysql_data:
+
 version: '3.8'
 
 services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cinema-backend
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_HOST: ${MYSQL_HOST}
+      DATABASE_PORT: ${MYSQL_PORT}
+      DATABASE_USER: ${MYSQL_USER}
+      DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+      DATABASE_NAME: ${MYSQL_DATABASE}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - cinema-network
+
   mysql:
     image: mysql:8
     container_name: cinema-mysql
@@ -13,14 +69,12 @@ services:
       - '3306:3306'
     volumes:
       - mysql_data:/var/lib/mysql
-    restart: unless-stopped
     networks:
       - cinema-network
 
   redis:
     image: redis:latest
     container_name: cinema-redis
-    restart: always
     ports:
       - '6379:6379'
     networks:
