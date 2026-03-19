@@ -13,6 +13,6 @@ export class Hall extends BaseApplicationEntity {
   @Column()
   seatsPerRows: number;
 
-  @OneToMany(() => Seat, (seat) => seat.Hall)
+  @OneToMany(() => Seat, (seat) => seat.hall)
   seats: Seat[];
 }
