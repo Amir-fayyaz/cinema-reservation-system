@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
 import { CREATE_SEAT, DELETE_SEAT, UPDATE_SEAT } from '@shared/constants';
 import {
   AuthorizeByPermission,
@@ -20,6 +21,7 @@ import { ApplicationRoles } from '@shared/enums';
 import { BooleanPipe } from '@shared/pipes';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CreateSeatDto } from './dto/create-seat.dto';
+import { PaginateSeatResponse } from './dto/paginate-seat-response.dto';
 import { UpdateSeatDto } from './dto/update-seat.dto';
 import { SeatService } from './seat.service';
 
@@ -46,6 +48,7 @@ export class SeatController {
       { field: 'isVip', example: '$eq:1' },
     ],
   })
+  @ApiOkResponse({ type: PaginateSeatResponse })
   async findAll(
     @Paginate(BooleanPipe) query: PaginateQuery,
     @Url() url: string,
