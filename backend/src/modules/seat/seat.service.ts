@@ -27,8 +27,11 @@ export class SeatService {
       where: { hallId: dto.hallId, row: dto.row, number: dto.number },
     });
 
-    if (seat) throw new BadRequestException('Seat already exists');
-
+    if (seat) {
+      throw new BadRequestException(
+        `Seat row ${dto.row}, number ${dto.number} already exists in this hall`,
+      );
+    }
     const newSeat = this.repository.create(dto);
     return await this.repository.save(newSeat);
   }
@@ -37,6 +40,18 @@ export class SeatService {
     return paginate(query, this.repository, {
       sortableColumns: ['createdAt'],
       defaultSortBy: [['createdAt', 'DESC']],
+      relations: ['hall'],
+      select: [
+        'id',
+        'createdAt',
+        'row',
+        'number',
+        'isVip',
+        'hallId',
+        'hall.name',
+        'hall.rows',
+        'hall.seatsPerRows',
+      ],
       filterableColumns: {
         hallId: [FilterOperator.EQ],
         row: [FilterOperator.EQ],
@@ -48,7 +63,10 @@ export class SeatService {
   }
 
   async findOne(id: string): Promise<Seat> {
-    const seat = await this.repository.findOne({ where: { id } });
+    const seat = await this.repository.findOne({
+      where: { id },
+      relations: ['hall'],
+    });
 
     if (!seat) throw new NotFoundException();
 
@@ -57,6 +75,21 @@ export class SeatService {
 
   async update(id: string, dto: UpdateSeatDto) {
     const seat = await this.findOne(id);
+
+    if (dto.row || dto.number || dto.hallId) {
+      const exists = await this.repository.exists({
+        where: {
+          hallId: dto.hallId ?? seat.hallId,
+          row: dto.row ?? seat.row,
+          number: dto.number ?? seat.number,
+        },
+      });
+
+      if (exists) {
+        throw new BadRequestException('Seat with these details already exists');
+      }
+    }
+
     Object.assign(seat, dto);
     return await this.repository.save(seat);
   }
