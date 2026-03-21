@@ -1,3 +1,4 @@
+import { Screening } from '@core/screening/entities/screening.entity';
 import { Seat } from '@core/seat/entities/seat.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
 import { Column, Entity, OneToMany } from 'typeorm';
@@ -15,4 +16,7 @@ export class Hall extends BaseApplicationEntity {
 
   @OneToMany(() => Seat, (seat) => seat.hall)
   seats: Seat[];
+
+  @OneToMany(() => Screening, (s) => s.hall)
+  screenings: Screening[];
 }
