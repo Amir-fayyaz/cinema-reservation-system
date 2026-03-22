@@ -12,7 +12,11 @@ export class Screening extends BaseApplicationEntity {
   @Column()
   basePrice: number;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: ScreeningStatus,
+    default: ScreeningStatus.ACTIVE,
+  })
   status: ScreeningStatus;
 
   @ManyToOne(() => Movie, (movie) => movie.screenings, { cascade: true })
