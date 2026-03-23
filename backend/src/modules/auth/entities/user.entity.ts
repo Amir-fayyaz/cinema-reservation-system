@@ -1,3 +1,4 @@
+import { ScreenSeat } from '@core/screen-seat/entities/screen-seat.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
 import { ApplicationRoles, GenderEnum } from '@shared/enums';
 import { Column, Entity, Index, OneToMany } from 'typeorm';
@@ -40,4 +41,7 @@ export class User extends BaseApplicationEntity {
 
   @OneToMany(() => Permission, (permission) => permission.user)
   permissions: Permission[];
+
+  @OneToMany(() => ScreenSeat, (s) => s.seat, { onDelete: 'CASCADE' })
+  screenSeats: ScreenSeat[];
 }
