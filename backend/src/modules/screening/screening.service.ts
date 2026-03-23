@@ -8,6 +8,7 @@ import {
 import { FilterOperator, paginate, PaginateQuery } from 'nestjs-paginate';
 import { QueryRunner } from 'typeorm';
 import { CreateScreeningDto } from './dto/create-screening.dto';
+import { UpdateScreeningDto } from './dto/update-screening.dto';
 import { Screening } from './entities/screening.entity';
 import { ScreeningRepository } from './screening.repository';
 
@@ -133,5 +134,80 @@ export class ScreeningService {
     if (!screening) throw new NotFoundException();
 
     return screening;
+  }
+
+  async update(id: string, dto: UpdateScreeningDto) {
+    const queryRunner: QueryRunner =
+      await this.repository.startTransaction('READ COMMITTED');
+
+    try {
+      const existing = await this.repository
+        .findById(queryRunner, id)
+        .findOneScreening();
+
+      if (!existing) {
+        throw new NotFoundException('Screening not found');
+      }
+      const updated = queryRunner.manager.merge(Screening, existing, dto);
+
+      if (dto.startTime) {
+        const isStartTimeInPast = await this.repository
+          .isStartTimeInPast()
+          .getBuilder()
+          .getExists();
+
+        if (isStartTimeInPast) {
+          throw new BadRequestException('Start time must be in the future');
+        }
+      }
+
+      if (dto.movieId || dto.startTime) {
+        const isMovieNotReleased = await this.repository
+          .isMovieNotReleased()
+          .getBuilder()
+          .getExists();
+
+        if (isMovieNotReleased) {
+          throw new BadRequestException('Movie has not been released yet');
+        }
+      }
+
+      if (dto.hallId || dto.startTime || dto.movieId) {
+        const hasConflict = await this.repository.hasTimeConflict(
+          queryRunner,
+          updated.hallId ?? existing.hallId,
+          updated.startTime ?? existing.startTime,
+          updated.movieId ?? existing.movieId,
+          id,
+        );
+
+        if (hasConflict) {
+          throw new ConflictException(
+            'Hall is already booked for this time slot',
+          );
+        }
+      }
+
+      const screening = await queryRunner.manager.save(updated);
+
+      await queryRunner.commitTransaction();
+
+      return screening;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async changeStatus() {}
+
+  //TODO add remove service when finished reservation & payment modules
+
+  private async exists(id: string) {
+    const s = await this.repository.exists({ where: { id } });
+
+    if (!s) throw new NotFoundException('screening not found');
   }
 }

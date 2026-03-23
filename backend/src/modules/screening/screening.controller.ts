@@ -5,9 +5,10 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { CREATE_SCREENING } from '@shared/constants';
+import { CREATE_SCREENING, UPDATE_SCREENING } from '@shared/constants';
 import {
   AuthorizeByPermission,
   PaginationOptions,
@@ -15,9 +16,11 @@ import {
   Url,
 } from '@shared/decorators';
 import { ScreeningStatus } from '@shared/enums';
+import { NotEmptyBodyPipe } from '@shared/pipes';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CreateScreeningDto } from './dto/create-screening.dto';
 import { PaginateScreeningResponse } from './dto/paginate-screening-response.dto';
+import { UpdateScreeningDto } from './dto/update-screening.dto';
 import { ScreeningService } from './screening.service';
 
 @Controller('screening')
@@ -58,5 +61,14 @@ export class ScreeningController {
   @SkipAuth()
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return await this.service.findOne(id);
+  }
+
+  @Put(':id')
+  @AuthorizeByPermission([UPDATE_SCREENING])
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body(NotEmptyBodyPipe) dto: UpdateScreeningDto,
+  ) {
+    return await this.service.update(id, dto);
   }
 }

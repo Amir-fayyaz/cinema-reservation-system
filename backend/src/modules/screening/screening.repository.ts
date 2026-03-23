@@ -133,4 +133,12 @@ export class ScreeningRepository extends Repository<Screening> {
 
     return qb.getExists();
   }
+
+  findById(queryRunner: QueryRunner, id: string) {
+    this.selectBuilder = queryRunner.manager
+      .createQueryBuilder(Screening, 'screening')
+      .where('screening.id = :id', { id })
+      .andWhere('screening.deletedAt IS NULL');
+    return this;
+  }
 }
