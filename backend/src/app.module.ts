@@ -6,6 +6,7 @@ import { HealthController } from '@core/health/health.controller';
 import { MovieModule } from '@core/movie/movie.module';
 import { PersonnelModule } from '@core/personnel/personnel.module';
 import { PositionModule } from '@core/position/position.module';
+import { ScreenSeatModule } from '@core/screen-seat/screen-seat.module';
 import { ScreeningModule } from '@core/screening/screening.module';
 import { SeatModule } from '@core/seat/seat.module';
 import { Module } from '@nestjs/common';
@@ -45,6 +46,7 @@ import {
     HallModule,
     SeatModule,
     ScreeningModule,
+    ScreenSeatModule,
     DiscountModule,
   ],
   controllers: [HealthController],
