@@ -9,8 +9,10 @@ export class BooleanPipe implements PipeTransform {
       }
 
       if (value[key] == 'true') value[key] = 1;
+      if (value[key] == true) value[key] = 1;
 
       if (value[key] == 'false') value[key] = 0;
+      if (value[key] == false) value[key] = 0;
     });
 
     return value;
