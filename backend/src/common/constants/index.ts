@@ -10,6 +10,7 @@ export * from './permissions/permission';
 export * from './permissions/permission-category';
 export * from './permissions/personnel';
 export * from './permissions/position';
+export * from './permissions/screen-seat';
 export * from './permissions/screening';
 export * from './permissions/seat';
 export * from './permissions/user';
