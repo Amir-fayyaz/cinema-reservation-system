@@ -3,9 +3,10 @@ import { Screening } from '@core/screening/entities/screening.entity';
 import { Seat } from '@core/seat/entities/seat.entity';
 import { BaseApplicationEntity } from '@shared/abstracts';
 import { ScreeningSeatStatus } from '@shared/enums';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 
 @Entity()
+@Unique(['screeningId', 'seatId'])
 export class ScreenSeat extends BaseApplicationEntity {
   @Column({ type: 'enum', enum: ScreeningSeatStatus })
   status: ScreeningSeatStatus;
